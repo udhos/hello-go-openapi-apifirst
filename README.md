@@ -6,6 +6,16 @@
 ./build.sh
 ```
 
+## Run
+
+```
+# server
+pets-server
+
+# client
+pets-client
+```
+
 ## curl
 
 ```
