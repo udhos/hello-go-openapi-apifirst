@@ -6,8 +6,8 @@ go generate ./pets
 
 go mod tidy
 
-export CGO_ENABLED=0
+go test -race ./...
 
-go test ./...
+export CGO_ENABLED=0
 
 go install ./...

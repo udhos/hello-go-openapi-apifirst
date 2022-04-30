@@ -12,7 +12,7 @@ import (
 type PetStore struct {
 	Pets   map[int64]pets.Pet
 	NextId int64
-	Lock   sync.Mutex
+	Lock   sync.RWMutex
 }
 
 // Make sure we conform to ServerInterface
@@ -39,10 +39,10 @@ func sendPetstoreError(w http.ResponseWriter, code int, message string) {
 
 // Here, we implement all of the handlers in the ServerInterface
 func (p *PetStore) FindPets(w http.ResponseWriter, r *http.Request, params pets.FindPetsParams) {
-	p.Lock.Lock()
-	defer p.Lock.Unlock()
+	p.Lock.RLock()
+	defer p.Lock.RUnlock()
 
-	var result []pets.Pet
+	result := []pets.Pet{}
 
 	for _, pet := range p.Pets {
 		if params.Tags != nil {
@@ -100,8 +100,8 @@ func (p *PetStore) AddPet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *PetStore) FindPetByID(w http.ResponseWriter, r *http.Request, id int64) {
-	p.Lock.Lock()
-	defer p.Lock.Unlock()
+	p.Lock.RLock()
+	defer p.Lock.RUnlock()
 
 	pet, found := p.Pets[id]
 	if !found {

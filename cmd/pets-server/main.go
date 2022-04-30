@@ -48,6 +48,6 @@ func main() {
 		Addr:    addr,
 	}
 
-	// And we serve HTTP until the world ends.
+	log.Printf("listning on TCP %s", addr)
 	log.Fatal(s.ListenAndServe())
 }
